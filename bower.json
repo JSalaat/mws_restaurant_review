@@ -1,0 +1,7 @@
+{
+  "name": "restapp",
+  "private": true,
+  "dependencies": {
+    "localforage": "^1.7.2"
+  }
+}
