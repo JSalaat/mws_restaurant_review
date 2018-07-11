@@ -19,7 +19,7 @@ let registerServiceWorker = () => {
         console.warn('[registerServiceWorker] No service worker available in browser.');
     }
 
-    navigator.serviceWorker.register('scripts/serviceWorker.js').then(function(reg) {
+    navigator.serviceWorker.register('serviceWorker.js').then(function(reg) {
         if (!navigator.serviceWorker.controller) {
             console.warn('[serviceWorker.register] No controller. Aborting.');
             return;

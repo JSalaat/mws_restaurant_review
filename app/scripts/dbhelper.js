@@ -16,13 +16,38 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL)
-        .then((res) =>
-            res.json().then((data) => {
-                callback(null, data);
-            })
-        )
-        .catch(e => callback((`Request failed. Returned status of ${e.status}`), null));
+    localforage.keys().then(function(keys) {
+        // An array of all the key names.
+        if (keys[0] === 'iRestaurantReview') {
+          localforage.getItem('iRestaurantReview')
+            .then(function (value) {
+              callback(null, value);
+            }).catch(function (err) {
+              // we got an error
+            });
+        }
+        else{
+          fetch(DBHelper.DATABASE_URL)
+            .then((res) =>
+                res.json().then((data) => {
+                  localforage.setItem('iRestaurantReview', data).then(function () {
+                    return localforage.getItem('iRestaurantReview');
+                  }).then(function (value) {
+                    callback(null, value);
+                  }).catch(function (err) {
+                    // we got an error
+                  });
+                    
+                })
+            )
+            .catch(e => callback((`Request failed. Returned status of ${e.status}`), null));
+        }
+        
+    }).catch(function(err) {
+        // This code runs if there were any errors
+        console.log(err);
+    });
+    
   }
 
   /**
