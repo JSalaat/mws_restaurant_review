@@ -40,5 +40,10 @@
         "single"
       ]
     }
+  },
+  "dependencies": {
+    "cross-spawn": "^6.0.5",
+    "exec-buffer": "^3.2.0",
+    "execa": "^0.10.0"
   }
 }

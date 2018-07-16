@@ -109,7 +109,8 @@ window.initMap = () => {
   self.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
     center: loc,
-    scrollwheel: false
+    scrollwheel: false,
+    title: 'map with restaurant markers'
   });
   updateRestaurants();
 }
@@ -171,7 +172,7 @@ let createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   const pictureEl = document.createElement('picture');
   const sourceEl = document.createElement('source');
-  const imgPath = DBHelper.imageUrlForRestaurant(restaurant).replace(".jpg", "");
+  const imgPath = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg', '');
 
   sourceEl.type = 'image/webp';
   sourceEl.srcset = `${imgPath}.webp`;
@@ -182,7 +183,7 @@ let createRestaurantHTML = (restaurant) => {
   image.className = 'restaurant-img';
   image.alt = `Image for Restaurant ${restaurant.name}`;
   image.setAttribute('aria-label', `Restaurant ${restaurant.name} image`);
-  image.src = DBHelper.imageUrlForRestaurant(restaurant).replace(".jpg", "");
+  image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg', '');
 
   image.src = `${imgPath}_800.jpg`;
   image.sizes='(max-width: 960px) 50vw, 100vw';
@@ -226,3 +227,4 @@ let addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 }
+

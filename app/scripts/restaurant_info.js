@@ -12,7 +12,8 @@ window.initMap = () => {
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
-        scrollwheel: false
+        scrollwheel: false,
+        title: 'map with restaurant markers'
       });
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
@@ -56,7 +57,7 @@ let fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
   const pictureEl = document.createElement('picture');
   const sourceEl = document.createElement('source');
-  const imgPath = DBHelper.imageUrlForRestaurant(restaurant).replace(".jpg", "");
+  const imgPath = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg', '');
 
   sourceEl.type = 'image/webp';
   sourceEl.srcset = `${imgPath}.webp`;
@@ -67,7 +68,7 @@ let fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.alt = `Image for Restaurant ${restaurant.name}`;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant).replace(".jpg", "");
+  image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg', '');
 
   image.src = `${imgPath}_800.jpg`;
   image.sizes='(max-width: 960px) 50vw, 100vw';
@@ -144,7 +145,7 @@ let createReviewHTML = (review) => {
   li.appendChild(comments);
 
   const rating = document.createElement('p');
-  rating.className = "ratings-el"
+  rating.className = 'ratings-el'
   rating.innerHTML = `Rating: ${review.rating}<b>☆</b>`;
   li.appendChild(rating);
 

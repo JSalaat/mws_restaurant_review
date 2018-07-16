@@ -13,12 +13,26 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:css styles/main.css -->
-    <!-- <link rel="stylesheet" href="styles/main.css"> -->
+    <!-- build:css styles/styles.css -->
     <link rel="stylesheet" href="styles/styles.css" type="text/css">
     <link rel="stylesheet" href="styles/media.css">
     <!-- endbuild -->
     <title>Restaurant Info</title>
+    
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Restaurant Reviews">
+    <meta name="apple-mobile-web-app-title" content="Restaurant Reviews">
+    <meta name="theme-color" content="#262830">
+    <meta name="msapplication-navbutton-color" content="#262830">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" type="image/png" sizes="512x512" href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="apple-touch-icon.png">
     
   </head>
   <body>
@@ -70,16 +84,6 @@
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
   <!-- End footer -->
-    
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='https://www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
@@ -87,10 +91,11 @@
     <!-- endbower -->
     <!-- endbuild -->
     
-    <!-- build:js scripts/main.js -->
+    <!-- build:js scripts/r_info.js -->
     <script type="application/javascript" charset="utf-8" src="scripts/dbhelper.js"></script>
     <script type="application/javascript" charset="utf-8" src="scripts/restaurant_info.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0AiblVgPpW1XiHBRme4XuanRZwy4FbGo&libraries=places&callback=initMap"></script>
     <!-- endbuild -->
+    
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0AiblVgPpW1XiHBRme4XuanRZwy4FbGo&libraries=places&callback=initMap"></script>
   </body>
 </html>

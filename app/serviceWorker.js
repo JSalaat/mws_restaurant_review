@@ -6,7 +6,7 @@ const staticCacheName = 'restaurant-review-v1';
 /**
  * Install service worker and cache assets
  */
-const assets = [
+/*const assets = [
     '/',
     'index.html',
     'restaurant.html',
@@ -46,6 +46,46 @@ const assets = [
     'img/10_400.jpg',
     'img/10_800.jpg',
     '/bower_components/localforage/dist/localforage.js'
+];*/
+
+const assets = [
+    '/',
+    'index.html',
+    'restaurant.html',
+    'scripts/index.js',
+    'scripts/r_info.js',
+    'scripts/vendor.js',
+    'styles/styles.css',
+    'img/1.webp',
+    'img/2.webp',
+    'img/3.webp',
+    'img/4.webp',
+    'img/5.webp',
+    'img/6.webp',
+    'img/7.webp',
+    'img/8.webp',
+    'img/9.webp',
+    'img/10.webp',
+    'img/1_400.jpg',
+    'img/1_800.jpg',
+    'img/2_400.jpg',
+    'img/2_800.jpg',
+    'img/3_400.jpg',
+    'img/3_800.jpg',
+    'img/4_400.jpg',
+    'img/4_800.jpg',
+    'img/5_400.jpg',
+    'img/5_800.jpg',
+    'img/6_400.jpg',
+    'img/6_800.jpg',
+    'img/7_400.jpg',
+    'img/7_800.jpg',
+    'img/8_400.jpg',
+    'img/8_800.jpg',
+    'img/9_400.jpg',
+    'img/9_800.jpg',
+    'img/10_400.jpg',
+    'img/10_800.jpg',
 ];
 
 self.addEventListener('install', event => {
