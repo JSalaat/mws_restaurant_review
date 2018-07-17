@@ -71,7 +71,7 @@ let fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg', '');
 
   image.src = `${imgPath}_800.jpg`;
-  image.sizes='(max-width: 960px) 50vw, 100vw';
+  image.sizes = '(max-width: 960px) 50vw, 100vw';
   image.srcset = [`${imgPath}_400.jpg 400w`, `${imgPath}_800.jpg 800w`];
   pictureEl.append(sourceEl);
   pictureEl.append(sourceJpeg);
@@ -155,7 +155,7 @@ let createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-let fillBreadcrumb = (restaurant=self.restaurant) => {
+let fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.setAttribute('aria-current', restaurant.name);

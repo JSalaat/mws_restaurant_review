@@ -1,81 +1,84 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Restaurant Reviews</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Restaurant Reviews</title>
 
-    <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json">
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Restaurant Reviews">
-    <meta name="apple-mobile-web-app-title" content="Restaurant Reviews">
-    <meta name="theme-color" content="#262830">
-    <meta name="msapplication-navbutton-color" content="#262830">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="msapplication-starturl" content="/">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Restaurant Reviews">
+  <meta name="apple-mobile-web-app-title" content="Restaurant Reviews">
+  <meta name="theme-color" content="#262830">
+  <meta name="msapplication-navbutton-color" content="#262830">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-starturl" content="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="icon" type="image/png" sizes="512x512" href="apple-touch-icon.png">
-    <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="apple-touch-icon.png">
+  <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="apple-touch-icon.png">
 
-    <!-- Place favicon.ico in the root directory -->
+  <!-- Place favicon.ico in the root directory -->
 
-    <!-- build:css styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
-    <!-- endbuild -->
+  <!-- build:css styles/vendor.css -->
+  <!-- bower:css -->
+  <!-- endbower -->
+  <!-- endbuild -->
 
-    <!-- build:css styles/styles.css -->
-    <link rel="stylesheet" href="styles/styles.css" type="text/css">
-    <link rel="stylesheet" href="styles/media.css" type="text/css">
-    <!-- endbuild -->
-    
-  </head>
-  <body>
-    <!--[if IE]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    
-    <header>
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
-  </header>
+  <!-- build:css styles/styles.css -->
+  <link rel="stylesheet" href="styles/styles.css" type="text/css">
+  <link rel="stylesheet" href="styles/media.css" type="text/css">
+  <!-- endbuild -->
 
-  <main id="maincontent">
-    <section id="map-container">
-      <div id="map"></div>
-    </section>
-    <section>
-      <div class="filter-options">
-        <h2>Filter Results</h2>
-        <div>
-          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="filter for Neighborhoods">
-            <option value="all">All Neighborhoods</option>
-          </select>
-          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()"  aria-label="filter for Cuisines">
-            <option value="all">All Cuisines</option>
-          </select>
-        </div>
+</head>
+<body>
+<!--[if IE]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+  your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<header>
+  <nav>
+    <h1><a href="/">Restaurant Reviews</a></h1>
+  </nav>
+</header>
+
+<main id="maincontent">
+  <section id="map-container">
+    <div id="map"></div>
+  </section>
+  <section>
+    <div class="filter-options">
+      <h2>Filter Results</h2>
+      <div>
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()"
+                aria-label="filter for Neighborhoods">
+          <option value="all">All Neighborhoods</option>
+        </select>
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="filter for Cuisines">
+          <option value="all">All Cuisines</option>
+        </select>
       </div>
-      <ul id="restaurants-list"></ul>
-    </section>
-  </main>
+    </div>
+    <ul id="restaurants-list"></ul>
+  </section>
+</main>
 
-    <!-- build:js scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="/bower_components/localforage/dist/localforage.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
-    
-    <!-- build:js scripts/index.js -->
-    <script type="application/javascript" charset="utf-8" src="scripts/dbhelper.js"></script>
-    <script type="application/javascript" charset="utf-8" src="scripts/main.js"></script>
-    <!-- endbuild -->
-    
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0AiblVgPpW1XiHBRme4XuanRZwy4FbGo&libraries=places&callback=initMap"></script>
-  </body>
+<!-- build:js scripts/vendor.js -->
+<!-- bower:js -->
+<script src="/bower_components/localforage/dist/localforage.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js scripts/index.js -->
+<script type="application/javascript" charset="utf-8" src="scripts/dbhelper.js"></script>
+<script type="application/javascript" charset="utf-8" src="scripts/main.js"></script>
+<!-- endbuild -->
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0AiblVgPpW1XiHBRme4XuanRZwy4FbGo&libraries=places&callback=initMap"></script>
+</body>
 </html>

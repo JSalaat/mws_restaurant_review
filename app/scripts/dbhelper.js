@@ -1,7 +1,7 @@
 /**
  * Common database helper functions.
  */
- 
+
 class DBHelper {
 
   /**
@@ -17,38 +17,38 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    localforage.keys().then(function(keys) {
-        // An array of all the key names.
-        if (keys[0] === 'iRestaurantReview') {
-          localforage.getItem('iRestaurantReview')
-            .then(function (value) {
-              callback(null, value);
-            }).catch(function (err) {
-              // we got an error
-            });
-        }
-        else{
-          fetch(DBHelper.DATABASE_URL)
-            .then((res) =>
-                res.json().then((data) => {
-                  localforage.setItem('iRestaurantReview', data).then(function () {
-                    return localforage.getItem('iRestaurantReview');
-                  }).then(function (value) {
-                    callback(null, value);
-                  }).catch(function (err) {
-                    // we got an error
-                  });
-                    
-                })
-            )
-            .catch(e => callback((`Request failed. Returned status of ${e.status}`), null));
-        }
-        
-    }).catch(function(err) {
-        // This code runs if there were any errors
-        console.log(err);
+    localforage.keys().then(function (keys) {
+      // An array of all the key names.
+      if (keys[0] === 'iRestaurantReview') {
+        localforage.getItem('iRestaurantReview')
+          .then(function (value) {
+            callback(null, value);
+          }).catch(function (err) {
+          // we got an error
+        });
+      }
+      else {
+        fetch(DBHelper.DATABASE_URL)
+          .then((res) =>
+            res.json().then((data) => {
+              localforage.setItem('iRestaurantReview', data).then(function () {
+                return localforage.getItem('iRestaurantReview');
+              }).then(function (value) {
+                callback(null, value);
+              }).catch(function (err) {
+                // we got an error
+              });
+
+            })
+          )
+          .catch(e => callback((`Request failed. Returned status of ${e.status}`), null));
+      }
+
+    }).catch(function (err) {
+      // This code runs if there were any errors
+      console.log(err);
     });
-    
+
   }
 
   /**
@@ -178,11 +178,12 @@ class DBHelper {
    */
   static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
-      position: restaurant.latlng,
-      title: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant),
-      map: map,
-      animation: google.maps.Animation.DROP}
+        position: restaurant.latlng,
+        title: restaurant.name,
+        url: DBHelper.urlForRestaurant(restaurant),
+        map: map,
+        animation: google.maps.Animation.DROP
+      }
     );
     return marker;
   }

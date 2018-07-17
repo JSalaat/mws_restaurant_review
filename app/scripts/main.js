@@ -15,32 +15,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 let registerServiceWorker = () => {
-    if (!navigator.serviceWorker) {
-        console.warn('[registerServiceWorker] No service worker available in browser.');
+  if (!navigator.serviceWorker) {
+    console.warn('[registerServiceWorker] No service worker available in browser.');
+  }
+
+  navigator.serviceWorker.register('serviceWorker.js').then(function (reg) {
+    if (!navigator.serviceWorker.controller) {
+      console.warn('[serviceWorker.register] No controller. Aborting.');
+      return;
     }
 
-    navigator.serviceWorker.register('serviceWorker.js').then(function(reg) {
-        if (!navigator.serviceWorker.controller) {
-            console.warn('[serviceWorker.register] No controller. Aborting.');
-            return;
-        }
+    if (reg.waiting) {
+      console.log('[serviceWorker.register] State::Waiting');
+      return;
+    }
 
-        if (reg.waiting) {
-            console.log('[serviceWorker.register] State::Waiting');
-            return;
+    if (reg.installing) {
+      console.log('[serviceWorker.register] State::Installing');
+      reg.installing.addEventListener('statechange', (worker) => {
+        if (worker.state === 'installed') {
+          console.log('[serviceWorker.register] StateChange::Installed');
         }
-
-        if (reg.installing) {
-            console.log('[serviceWorker.register] State::Installing');
-            reg.installing.addEventListener('statechange', (worker) => {
-                if (worker.state === 'installed') {
-                    console.log('[serviceWorker.register] StateChange::Installed');
-                }
-            });
-            return;
-        }
-        console.log(reg);
-    });
+      });
+      return;
+    }
+    console.log(reg);
+  });
 };
 
 /**
@@ -186,7 +186,7 @@ let createRestaurantHTML = (restaurant) => {
   image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg', '');
 
   image.src = `${imgPath}_800.jpg`;
-  image.sizes='(max-width: 960px) 50vw, 100vw';
+  image.sizes = '(max-width: 960px) 50vw, 100vw';
   image.srcset = [`${imgPath}_400.jpg 400w`, `${imgPath}_800.jpg 800w`];
   pictureEl.append(sourceEl);
   pictureEl.append(sourceJpeg);
