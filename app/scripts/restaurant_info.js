@@ -51,7 +51,12 @@ let fetchRestaurantFromURL = (callback) => {
  */
 let fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
+  const favEl = document.getElementById('favorite');
   name.innerHTML = restaurant.name;
+  if (restaurant.is_favorite){
+    favEl.classList.remove('hidden');
+  }
+
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
@@ -137,7 +142,7 @@ let fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 let createReviewHTML = (review) => {
   const li = document.createElement('li');
   const name = document.createElement('p');
-  name.innerHTML = `<b>${review.name}</b> wrote on ${review.date}`;
+  name.innerHTML = `<b>${review.name}</b> wrote on ${new Date(review.createdAt).toGMTString()}`;
   li.appendChild(name);
 
   const comments = document.createElement('blockquote');
@@ -177,4 +182,27 @@ let getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+/**
+ * Post new review.
+ */
+let submitReview = () => {
+  let data = {
+    'restaurant_id': restaurant.id,
+    'name': document.getElementById('review-form-elem').elements["name"].value,
+    'rating': document.getElementById('review-form-elem').elements["rating"].value,
+    'comments': document.getElementById('review-form-elem').elements["comments"].value
+  };
+  DBHelper.submitReview(data);
+  // DBHelper.submitReview()
+
+}
+/**
+ * mark as favorite.
+ */
+let toggleFavorite = () => {
+  DBHelper.toggleFavorite(restaurant.id, !restaurant.is_favorite);
+  // DBHelper.submitReview()
+
 }

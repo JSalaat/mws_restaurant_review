@@ -7,7 +7,7 @@ const staticCacheName = 'restaurant-review-v1';
  * Install service worker and cache assets
  */
 // uncomment this if running in dev
-/*const assets = [
+const assets = [
  '/',
  'index.html',
  'restaurant.html',
@@ -47,9 +47,11 @@ const staticCacheName = 'restaurant-review-v1';
  'img/10_400.jpg',
  'img/10_800.jpg',
  '/bower_components/localforage/dist/localforage.js'
- ];*/
+ ];
 
 //TODO: Lazyload all images
+/*
+
 const assets = [
   '/',
   'index.html',
@@ -89,6 +91,7 @@ const assets = [
   'img/10_400.jpg',
   'img/10_800.jpg',
 ];
+*/
 
 self.addEventListener('install', event => {
   event.waitUntil(

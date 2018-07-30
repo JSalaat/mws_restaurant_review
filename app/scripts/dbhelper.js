@@ -10,7 +10,7 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 1337; // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    return `http://localhost:${port}`;
   }
 
   /**
@@ -28,16 +28,17 @@ class DBHelper {
         });
       }
       else {
-        fetch(DBHelper.DATABASE_URL)
+        fetch(`${DBHelper.DATABASE_URL}/restaurants`)
           .then((res) =>
             res.json().then((data) => {
-              localforage.setItem('iRestaurantReview', data).then(function () {
-                return localforage.getItem('iRestaurantReview');
-              }).then(function (value) {
-                callback(null, value);
-              }).catch(function (err) {
-                // we got an error
-              });
+              /*localforage.setItem('iRestaurantReview', data).then(function () {
+               return localforage.getItem('iRestaurantReview');
+               }).then(function (value) {
+               callback(null, value);
+               }).catch(function (err) {
+               // we got an error
+               });*/
+              callback(null, data);
 
             })
           )
@@ -55,19 +56,50 @@ class DBHelper {
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
+    const promises = [
+      fetch(DBHelper.DATABASE_URL + `/restaurants/${id}`).then(r=> r.json()),
+      fetch(DBHelper.DATABASE_URL + `/reviews/?restaurant_id=${id}`).then(r=> r.json())
+    ];
+    Promise.all(promises)
+      .then(data => {
+        restaurant = data[0];
+        restaurant.reviews = data[1];
+        callback(null, restaurant);
+      })
+      .catch(error => callback(error, null));
     // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
-        } else { // Restaurant does not exist in the database
-          callback('Restaurant does not exist', null);
-        }
-      }
-    });
+    /*DBHelper.fetchRestaurants((error, restaurants) => {
+     if (error) {
+     callback(error, null);
+     } else {
+     const restaurant = restaurants.find(r => r.id == id);
+     if (restaurant) { // Got the restaurant
+     callback(null, restaurant);
+     } else { // Restaurant does not exist in the database
+     callback('Restaurant does not exist', null);
+     }
+     }
+     });*/
+  }
+
+  static toggleFavorite(id, flag) {
+    fetch(`${DBHelper.DATABASE_URL}restaurants/${id}/?is_favorite=${flag}`, {
+      method: 'put'
+    }).then(res=>res.json())
+      .then(res => console.log(res));
+  }
+
+  static submitReview(params) {
+    fetch(`${DBHelper.DATABASE_URL}/reviews/`, {
+      method: 'post',
+      body: JSON.stringify({
+        'restaurant_id': params.restaurant_id,
+        'name': params.name,
+        'rating': params.rating,
+        'comments': params.comments
+      })
+    }).then(res=>res.json())
+      .then(res => console.log(res));
   }
 
   /**

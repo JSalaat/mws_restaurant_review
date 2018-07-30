@@ -21,6 +21,10 @@
     width: 40%;
   }
 
+  #review-form-cont {
+    width: 100%;
+  }
+
   .flex-item {
     width: 100%;
   }

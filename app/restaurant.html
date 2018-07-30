@@ -66,6 +66,10 @@
   <!-- Beginning restaurant -->
   <section id="restaurant-container">
     <h2 id="restaurant-name"></h2>
+    <span id="favorite" class="hidden">FAVORITE</span>
+    <button id="restaurant-fav-btn" onclick="toggleFavorite()">
+      <span class="isFavorite">Un</span>Mark As Favorite
+    </button>
     <img id="restaurant-img">
     <p id="restaurant-cuisine"></p>
     <p id="restaurant-address"></p>
@@ -75,6 +79,40 @@
   <!-- Beginning reviews -->
   <section id="reviews-container">
     <ul id="reviews-list"></ul>
+
+  </section>
+
+  <section id="review-form-cont">
+    <div id="review-form">
+      <h4>Add Your Own Review</h4>
+      <form name="reviewForm" id="review-form-elem">
+        <div>
+          <label for="name">Name:</label><br>
+          <input type="text" name="name" id="name" value="">
+        </div>
+        <br>
+        <br>
+        <div>
+          <label for="rating">Rating: (1-5 Stars)</label><br>
+          <span class="rating" id="rating">
+            <input type="radio" name="rating" value="0" checked /><span id="hide"></span>
+            <input type="radio" name="rating" value="1" /><span></span>
+            <input type="radio" name="rating" value="2" /><span></span>
+            <input type="radio" name="rating" value="3" /><span></span>
+            <input type="radio" name="rating" value="4" /><span></span>
+            <input type="radio" name="rating" value="5" /><span></span>
+          </span>
+        </div>
+        <br>
+        <br>
+        <div>
+          <label for="comments">Comments:</label>
+          <textarea name="comments" id="comments" rows="4" cols="30"></textarea>
+        </div>
+        <br>
+        <input type="button" value="Submit" onclick="submitReview()">
+      </form>
+    </div>
   </section>
   <!-- End reviews -->
 </main>

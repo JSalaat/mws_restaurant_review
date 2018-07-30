@@ -320,11 +320,35 @@ nav h1 a {
 }
 
 #reviews-container {
-  padding: 15px;
   display: inline-block;
   align-items: center;
+  padding: 15px;
 }
 
+#review-form {
+  background-color: #fff;
+  border: 2px solid #f3f3f3;
+  display: block;
+  list-style-type: none;
+  margin: 0 0 30px;
+  overflow: hidden;
+  padding: 20px;
+  position: relative;
+  border-radius: 20px 0;
+  width: 90%;
+}
+
+#review-form-cont {
+  display: inline-block;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 10px 20px;
+  width: 100%;
+}
+
+#review-form-elem div{
+  display: inline-flex;
+}
 #reviews-container h2 {
   color: #f58500;
   font-size: 24pt;
@@ -363,4 +387,52 @@ nav h1 a {
   text-align: right;
   color: blue;
   font-weight: 500;
+}
+
+#hide {
+  display:none;
+}
+
+.rating input {
+  position:absolute;
+  filter:alpha(opacity=0);
+  -moz-opacity:0;
+  -khtml-opacity:0;
+  opacity:0;
+  cursor:pointer;
+  width:17px;
+}
+
+.rating span {
+  width:24px;
+  height:16px;
+  line-height:16px;
+  padding:1px 22px 1px 0; /* 1px FireFox fix */
+  background:url(../img/stars.png) no-repeat -22px 0;
+}
+
+/* Change span immediately following the checked radio */
+
+.rating input:checked + span {
+  background-position:-22px 0;
+}
+
+/* Reset all remaining stars back to default background.
+   This supersedes the above due to its ordering. */
+
+.rating input:checked + span ~ span {
+  background-position:0 0;
+}
+
+#favorite{
+  background-color: #f18200;
+  color: white;
+  font-size: small;
+  padding: 5px;
+  border-radius: 10px;
+  text-align: right;
+}
+
+.hidden{
+  display: none;
 }
