@@ -73,7 +73,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 20px;
 }
 
-article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+article, aside, canvas, details, figcaption, figure, footer, header, menu, nav, section {
   display: block;
 }
 
@@ -429,8 +429,21 @@ nav h1 a {
   color: white;
   font-size: small;
   padding: 5px;
-  border-radius: 10px;
+  border-radius: 5px;
   text-align: right;
+  margin-top: 2px;
+  float: right;
+}
+
+#not-favorite{
+  background-color: white;
+  color: #f18200;
+  font-size: small;
+  padding: 5px;
+  border-radius: 5px;
+  text-align: right;
+  margin-top: 2px;
+  float: right;
 }
 
 .hidden{

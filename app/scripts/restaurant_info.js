@@ -51,12 +51,26 @@ let fetchRestaurantFromURL = (callback) => {
  */
 let fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
-  const favEl = document.getElementById('favorite');
   name.innerHTML = restaurant.name;
-  if (restaurant.is_favorite){
-    favEl.classList.remove('hidden');
-  }
 
+
+  const favEl = document.createElement('button');
+  //const favBtn = document.getElementById('mark-fav');
+  if (restaurant.is_favorite == true || restaurant.is_favorite == 'true'){
+    favEl.id = 'favorite';
+    favEl.innerText = '☆ FAVORITE';
+    name.append(favEl);
+
+    //favBtn.innerText = 'Un Mark Favorite';
+    favEl.onclick = () => toggleFavorite('false');
+  }
+  else {
+    favEl.id = 'not-favorite';
+    favEl.innerText = 'Mark As Favorite';
+    name.append(favEl);
+    //favBtn.innerText = 'Mark As Favorite';
+    favEl.onclick = () => toggleFavorite('true');
+  }
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
@@ -194,15 +208,21 @@ let submitReview = () => {
     'rating': document.getElementById('review-form-elem').elements["rating"].value,
     'comments': document.getElementById('review-form-elem').elements["comments"].value
   };
-  DBHelper.submitReview(data);
-  // DBHelper.submitReview()
+  DBHelper.submitReview(data, function (err, res) {
+    if (err) throw err;
+    console.log(res);
+    window.location.reload(false);
+  });
 
-}
+};
 /**
  * mark as favorite.
  */
-let toggleFavorite = () => {
-  DBHelper.toggleFavorite(restaurant.id, !restaurant.is_favorite);
-  // DBHelper.submitReview()
-
-}
+let toggleFavorite = (flag) => {
+  DBHelper.toggleFavorite(restaurant.id, flag, function (err, res) {
+    if (err) throw err;
+    console.log(res.is_favorite);
+    window.location.reload(false);
+    //fillRestaurantHTML(res);
+  });
+};

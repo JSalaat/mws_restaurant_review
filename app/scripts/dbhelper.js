@@ -17,7 +17,7 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    localforage.keys().then(function (keys) {
+    /*localforage.keys().then(function (keys) {
       // An array of all the key names.
       if (keys[0] === 'iRestaurantReview') {
         localforage.getItem('iRestaurantReview')
@@ -31,13 +31,13 @@ class DBHelper {
         fetch(`${DBHelper.DATABASE_URL}/restaurants`)
           .then((res) =>
             res.json().then((data) => {
-              /*localforage.setItem('iRestaurantReview', data).then(function () {
+              /!*localforage.setItem('iRestaurantReview', data).then(function () {
                return localforage.getItem('iRestaurantReview');
                }).then(function (value) {
                callback(null, value);
                }).catch(function (err) {
                // we got an error
-               });*/
+               });*!/
               callback(null, data);
 
             })
@@ -48,7 +48,22 @@ class DBHelper {
     }).catch(function (err) {
       // This code runs if there were any errors
       console.log(err);
-    });
+    });*/
+    fetch(`${DBHelper.DATABASE_URL}/restaurants`)
+      .then((res) =>
+        res.json().then((data) => {
+          /*localforage.setItem('iRestaurantReview', data).then(function () {
+           return localforage.getItem('iRestaurantReview');
+           }).then(function (value) {
+           callback(null, value);
+           }).catch(function (err) {
+           // we got an error
+           });*/
+          callback(null, data);
+
+        })
+      )
+      .catch(e => callback((`Request failed. Returned status of ${e.status}`), null));
 
   }
 
@@ -67,29 +82,16 @@ class DBHelper {
         callback(null, restaurant);
       })
       .catch(error => callback(error, null));
-    // fetch all restaurants with proper error handling.
-    /*DBHelper.fetchRestaurants((error, restaurants) => {
-     if (error) {
-     callback(error, null);
-     } else {
-     const restaurant = restaurants.find(r => r.id == id);
-     if (restaurant) { // Got the restaurant
-     callback(null, restaurant);
-     } else { // Restaurant does not exist in the database
-     callback('Restaurant does not exist', null);
-     }
-     }
-     });*/
   }
 
-  static toggleFavorite(id, flag) {
-    fetch(`${DBHelper.DATABASE_URL}restaurants/${id}/?is_favorite=${flag}`, {
+  static toggleFavorite(id, flag, callback) {
+    fetch(`${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=${flag}`, {
       method: 'put'
     }).then(res=>res.json())
-      .then(res => console.log(res));
+      .then(res => callback(null, res));
   }
 
-  static submitReview(params) {
+  static submitReview(params, callback) {
     fetch(`${DBHelper.DATABASE_URL}/reviews/`, {
       method: 'post',
       body: JSON.stringify({
@@ -99,7 +101,7 @@ class DBHelper {
         'comments': params.comments
       })
     }).then(res=>res.json())
-      .then(res => console.log(res));
+      .then(res => callback(null, res));
   }
 
   /**
