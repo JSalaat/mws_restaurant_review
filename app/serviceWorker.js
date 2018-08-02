@@ -141,6 +141,7 @@ self.addEventListener('fetch', function (event) {
       return;
     }
   }
+  console.log(new URL(event.request.url));
 
   event.respondWith(
     caches.match(event.request).then(function (response) {

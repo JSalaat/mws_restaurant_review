@@ -76,6 +76,10 @@
 <!-- build:js scripts/index.js -->
 <script type="application/javascript" charset="utf-8" src="scripts/dbhelper.js"></script>
 <script type="application/javascript" charset="utf-8" src="scripts/main.js"></script>
+<script type="application/javascript" charset="utf-8">
+  window.addEventListener('online', DBHelper.handleConnectionChange);
+  window.addEventListener('offline', DBHelper.handleConnectionChange);
+</script>
 <!-- endbuild -->
 
 <script async defer

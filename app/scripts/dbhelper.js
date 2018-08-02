@@ -17,71 +17,63 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    /*localforage.keys().then(function (keys) {
+    localforage.keys().then(function (keys) {
       // An array of all the key names.
-      if (keys[0] === 'iRestaurantReview') {
-        localforage.getItem('iRestaurantReview')
-          .then(function (value) {
-            callback(null, value);
-          }).catch(function (err) {
-          // we got an error
-        });
+      if (keys.filter(key => key == `/restaurants`).length > 0) {
+        localforage.getItem('/restaurants')
+          .then((value) => callback(null, value))
       }
       else {
         fetch(`${DBHelper.DATABASE_URL}/restaurants`)
           .then((res) =>
             res.json().then((data) => {
-              /!*localforage.setItem('iRestaurantReview', data).then(function () {
-               return localforage.getItem('iRestaurantReview');
-               }).then(function (value) {
-               callback(null, value);
-               }).catch(function (err) {
-               // we got an error
-               });*!/
-              callback(null, data);
-
+              localforage.setItem('/restaurants', data)
+                .then(()=> localforage.getItem('/restaurants'))
+                .then((value) => callback(null, value))
             })
           )
           .catch(e => callback((`Request failed. Returned status of ${e.status}`), null));
       }
-
     }).catch(function (err) {
       // This code runs if there were any errors
       console.log(err);
-    });*/
-    fetch(`${DBHelper.DATABASE_URL}/restaurants`)
-      .then((res) =>
-        res.json().then((data) => {
-          /*localforage.setItem('iRestaurantReview', data).then(function () {
-           return localforage.getItem('iRestaurantReview');
-           }).then(function (value) {
-           callback(null, value);
-           }).catch(function (err) {
-           // we got an error
-           });*/
-          callback(null, data);
-
-        })
-      )
-      .catch(e => callback((`Request failed. Returned status of ${e.status}`), null));
-
+    });
   }
 
   /**
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-    const promises = [
-      fetch(DBHelper.DATABASE_URL + `/restaurants/${id}`).then(r=> r.json()),
-      fetch(DBHelper.DATABASE_URL + `/reviews/?restaurant_id=${id}`).then(r=> r.json())
-    ];
-    Promise.all(promises)
-      .then(data => {
-        restaurant = data[0];
-        restaurant.reviews = data[1];
-        callback(null, restaurant);
-      })
-      .catch(error => callback(error, null));
+    localforage.keys().then(function (keys) {
+      // An array of all the key names.
+      if (keys.filter(key => key == `/restaurants/${id}`).length > 0) {
+
+        localforage.getItem(`/restaurants/${id}`)
+          .then((value) => callback(null, value))
+
+      }
+      else {
+        const promises = [
+          fetch(DBHelper.DATABASE_URL + `/restaurants/${id}`).then(r=> r.json()),
+          fetch(DBHelper.DATABASE_URL + `/reviews/?restaurant_id=${id}`).then(r=> r.json())
+        ];
+        Promise.all(promises)
+          .then(data => {
+            restaurant = data[0];
+            restaurant.reviews = data[1];
+            localforage.setItem(`/restaurants/${id}`, restaurant)
+              .then(()=> localforage.getItem(`/restaurants/${id}`))
+              .then((value) => callback(null, value))
+
+          })
+          .catch(error => callback(error, null));
+      }
+
+    }).catch(function (err) {
+      // This code runs if there were any errors
+      console.log(err);
+    });
+
   }
 
   static toggleFavorite(id, flag, callback) {
@@ -92,17 +84,17 @@ class DBHelper {
   }
 
   static submitReview(params, callback) {
-    fetch(`${DBHelper.DATABASE_URL}/reviews/`, {
-      method: 'post',
-      body: JSON.stringify({
-        'restaurant_id': params.restaurant_id,
-        'name': params.name,
-        'rating': params.rating,
-        'comments': params.comments
-      })
-    }).then(res=>res.json())
-      .then(res => callback(null, res));
-  }
+  fetch(`${DBHelper.DATABASE_URL}/reviews/`, {
+    method: 'post',
+    body: JSON.stringify({
+      'restaurant_id': params.restaurant_id,
+      'name': params.name,
+      'rating': params.rating,
+      'comments': params.comments
+    })
+  }).then(res=>res.json())
+    .then(res => callback(null, res));
+}
 
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
@@ -145,7 +137,7 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        let results = restaurants
+        let results = restaurants;
         if (cuisine != 'all') { // filter by cuisine
           results = results.filter(r => r.cuisine_type == cuisine);
         }
@@ -167,9 +159,9 @@ class DBHelper {
         callback(error, null);
       } else {
         // Get all neighborhoods from all restaurants
-        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
         // Remove duplicates from neighborhoods
-        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
+        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i);
         callback(null, uniqueNeighborhoods);
       }
     });
@@ -185,9 +177,9 @@ class DBHelper {
         callback(error, null);
       } else {
         // Get all cuisines from all restaurants
-        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
+        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type);
         // Remove duplicates from cuisines
-        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
+        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i);
         callback(null, uniqueCuisines);
       }
     });
@@ -220,6 +212,17 @@ class DBHelper {
       }
     );
     return marker;
+  }
+
+  static handleConnectionChange(event){
+    if(event.type == "offline"){
+      console.log("You lost connection.");
+    }
+    if(event.type == "online"){
+      console.log("You are now back online.");
+    }
+
+    console.log(new Date(event.timeStamp));
   }
 
 }
