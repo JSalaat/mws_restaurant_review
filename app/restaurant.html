@@ -8,8 +8,10 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
   <link rel="preconnect" href="https://maps.gstatic.com">
+  <link rel="preconnect" href="https://maps.googleapis.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="http://localhost:1337">
 
   <!-- Place favicon.ico in the root directory -->
 
@@ -135,10 +137,6 @@
 <!-- build:js scripts/r_info.js -->
 <script type="application/javascript" charset="utf-8" src="scripts/dbhelper.js"></script>
 <script type="application/javascript" charset="utf-8" src="scripts/restaurant_info.js"></script>
-<script type="application/javascript" charset="utf-8">
-  window.addEventListener('online', DBHelper.handleConnectionChange);
-  window.addEventListener('offline', DBHelper.handleConnectionChange);
-</script>
 <!-- endbuild -->
 
 <script async defer
