@@ -424,7 +424,7 @@ nav h1 a {
   background-position:0 0;
 }
 
-#favorite{
+#favorite, .favorite-star{
   background-color: #f18200;
   color: white;
   font-size: small;

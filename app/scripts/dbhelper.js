@@ -7,6 +7,7 @@ class DBHelper {
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
+   * @return {string}
    */
   static get DATABASE_URL() {
     const port = 1337; // Change this to your server port
@@ -19,7 +20,7 @@ class DBHelper {
   static fetchRestaurants(callback) {
     localforage.keys().then(function (keys) {
       // An array of all the key names.
-      if (keys.filter(key => key == `/restaurants`).length > 0) {
+      if (keys.filter(key => key == '/restaurants').length > 0) {
         localforage.getItem('/restaurants')
           .then((value) => callback(null, value))
       }
@@ -73,28 +74,48 @@ class DBHelper {
       // This code runs if there were any errors
       console.log(err);
     });
-
   }
 
   static toggleFavorite(id, flag, callback) {
-    fetch(`${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=${flag}`, {
-      method: 'put'
-    }).then(res=>res.json())
-      .then(res => callback(null, res));
+    if (!navigator.onLine){
+      alert('You are not connected to the internet! Please try again later');
+    }
+    else {
+      fetch(`${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=${flag}`, {
+        method: 'put'
+      }).then(res => res.json())
+        .then(res => {
+          this.removeCache();
+          callback(null, res)
+        });
+    }
   }
 
   static submitReview(params, callback) {
-  fetch(`${DBHelper.DATABASE_URL}/reviews/`, {
-    method: 'post',
-    body: JSON.stringify({
-      'restaurant_id': params.restaurant_id,
-      'name': params.name,
-      'rating': params.rating,
-      'comments': params.comments
-    })
-  }).then(res=>res.json())
-    .then(res => callback(null, res));
-}
+    if (!navigator.onLine){
+      window.addEventListener('online', () => this.submitReview(params, callback));
+      alert('Your review has been saved! We will post it when you are connected to the internet');
+    }
+    else {
+      fetch(`${DBHelper.DATABASE_URL}/reviews/`, {
+        method: 'post',
+        body: JSON.stringify({
+          'restaurant_id': params.restaurant_id,
+          'name': params.name,
+          'rating': params.rating,
+          'comments': params.comments
+        })
+      }).then(res => res.json())
+        .then(res => {
+          this.removeCache();
+          callback(null, res)
+        });
+    }
+  }
+
+  static removeCache() {
+    localforage.clear();
+  }
 
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
@@ -215,11 +236,11 @@ class DBHelper {
   }
 
   static handleConnectionChange(event){
-    if(event.type == "offline"){
-      console.log("You lost connection.");
+    if(event.type == 'offline'){
+      console.log('You lost connection.');
     }
-    if(event.type == "online"){
-      console.log("You are now back online.");
+    if(event.type == 'online'){
+      console.log('You are now back online.');
     }
 
     console.log(new Date(event.timeStamp));

@@ -61,14 +61,12 @@ let fillRestaurantHTML = (restaurant = self.restaurant) => {
     favEl.innerText = '☆ FAVORITE';
     name.append(favEl);
 
-    //favBtn.innerText = 'Un Mark Favorite';
     favEl.onclick = () => toggleFavorite('false');
   }
   else {
     favEl.id = 'not-favorite';
     favEl.innerText = 'Mark As Favorite';
     name.append(favEl);
-    //favBtn.innerText = 'Mark As Favorite';
     favEl.onclick = () => toggleFavorite('true');
   }
 
@@ -204,9 +202,9 @@ let getParameterByName = (name, url) => {
 let submitReview = () => {
   let data = {
     'restaurant_id': restaurant.id,
-    'name': document.getElementById('review-form-elem').elements["name"].value,
-    'rating': document.getElementById('review-form-elem').elements["rating"].value,
-    'comments': document.getElementById('review-form-elem').elements["comments"].value
+    'name': document.getElementById('review-form-elem').elements['name'].value,
+    'rating': document.getElementById('review-form-elem').elements['rating'].value,
+    'comments': document.getElementById('review-form-elem').elements['comments'].value
   };
   DBHelper.submitReview(data, function (err, res) {
     if (err) throw err;
@@ -221,7 +219,7 @@ let submitReview = () => {
 let toggleFavorite = (flag) => {
   DBHelper.toggleFavorite(restaurant.id, flag, function (err, res) {
     if (err) throw err;
-    console.log(res.is_favorite);
+    console.log(res);
     window.location.reload(false);
     //fillRestaurantHTML(res);
   });

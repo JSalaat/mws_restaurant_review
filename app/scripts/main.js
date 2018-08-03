@@ -197,6 +197,13 @@ let createRestaurantHTML = (restaurant) => {
   name.innerHTML = restaurant.name;
   li.append(name);
 
+  const favEl = document.createElement('span');
+  if (restaurant.is_favorite == true || restaurant.is_favorite == 'true'){
+    favEl.classList.add('favorite-star');
+    favEl.innerText = '☆ Favorite';
+    name.append(favEl);
+  }
+
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   li.append(neighborhood);
