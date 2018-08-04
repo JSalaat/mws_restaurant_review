@@ -51,8 +51,6 @@ const staticCacheName = 'restaurant-review-v1';
  '/bower_components/localforage/dist/localforage.js'
  ];*/
 
-//TODO: Lazyload all images
-
 const assets = [
   '/',
   'index.html',
