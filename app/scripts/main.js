@@ -2,13 +2,14 @@ let restaurants,
   neighborhoods,
   cuisines;
 var selectedFilters = {};
-var map;
+var newMap;
 var markers = [];
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+  initMap();
   fetchNeighborhoods();
   fetchCuisines();
   registerServiceWorker();
@@ -102,16 +103,20 @@ let fillCuisinesHTML = (cuisines = self.cuisines) => {
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
+  self.newMap = L.map('map', {
+    center: [40.722216, -73.987501],
     zoom: 12,
-    center: loc,
-    scrollwheel: false,
-    title: 'map with restaurant markers'
+    scrollWheelZoom: false
   });
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token=pk.eyJ1IjoianNhbGFhdCIsImEiOiJjamtmYXh5dWIwNnN6M2twOWxxZ2U3eW1qIn0.RBDZjhpWCr3Ydl6386E3Fw', {
+    mapboxToken: '<your MAPBOX API KEY HERE>',
+    maxZoom: 18,
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+    '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+    'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    id: 'mapbox.streets'
+  }).addTo(newMap);
+
   updateRestaurants();
 }
 
@@ -175,7 +180,7 @@ let createRestaurantHTML = (restaurant) => {
   const imgPath = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg', '');
 
   sourceEl.type = 'image/webp';
-  sourceEl.srcset = `${imgPath}.webp`;
+  sourceEl['data-srcset'] = `${imgPath}.webp`;
   const sourceJpeg = document.createElement('source');
   sourceJpeg.type = 'image/jpeg';
 
@@ -183,14 +188,18 @@ let createRestaurantHTML = (restaurant) => {
   image.className = 'restaurant-img';
   image.alt = `Image for Restaurant ${restaurant.name}`;
   image.setAttribute('aria-label', `Restaurant ${restaurant.name} image`);
-  image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg', '');
 
-  image.src = `${imgPath}_800.jpg`;
+  image['data-src'] = `${imgPath}_400.jpg`;
   image.sizes = '(max-width: 960px) 50vw, 100vw';
-  image.srcset = [`${imgPath}_400.jpg 400w`, `${imgPath}_800.jpg 800w`];
+  image['data-srcset'] = [`${imgPath}_400.jpg 400w`, `${imgPath}_800.jpg 800w`];
   pictureEl.append(sourceEl);
   pictureEl.append(sourceJpeg);
   pictureEl.append(image);
+  inViewport(image, function() {
+    sourceEl.setAttribute('srcset', sourceEl['data-srcset']);
+    image.setAttribute('srcset', image['data-srcset']);
+    image.setAttribute('src', image['data-src']);
+  });
   li.append(pictureEl);
 
   const name = document.createElement('h2');
@@ -227,11 +236,11 @@ let createRestaurantHTML = (restaurant) => {
 let addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-    google.maps.event.addListener(marker, 'click', () => {
-      window.location.href = marker.url
-    });
-    self.markers.push(marker);
+    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
+    marker.on('click', onClick);
+    function onClick() {
+      window.location.href = marker.options.url;
+    }
   });
 }
 

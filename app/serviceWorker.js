@@ -14,6 +14,7 @@ const staticCacheName = 'restaurant-review-v1';
  'scripts/main.js',
  'scripts/restaurant_info.js',
  'scripts/dbhelper.js',
+ 'scripts/in-viewport.min.js',
  'styles/styles.css',
  'styles/media.css',
  'img/1.webp',
@@ -90,7 +91,7 @@ const assets = [
   'img/9_800.jpg',
   'img/10_400.jpg',
   'img/10_800.jpg',
-  'img/stars.png',
+  'img/stars.png'
 ];
 
 self.addEventListener('install', event => {
