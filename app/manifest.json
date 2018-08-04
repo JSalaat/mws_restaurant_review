@@ -1,6 +1,6 @@
 {
   "name": "Restaurant Reviews",
-  "short_name": "Restaurant Reviews",
+  "short_name": "ReviewsApp",
   "lang": "en-GB",
   "start_url": "/",
   "display": "standalone",
