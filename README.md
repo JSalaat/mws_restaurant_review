@@ -5,6 +5,11 @@
 1.	Node.js & npm
 2.	Bower
 
+### Screen Shots of the App
+
+<img src="https://github.com/JSalaat/mws_restaurant_review/raw/master/home.jpg" width="500" /> 
+<br />
+<img src="https://github.com/JSalaat/mws_restaurant_review/raw/master/rest8.jpg" width="500" />
 
 ## Installation
 
